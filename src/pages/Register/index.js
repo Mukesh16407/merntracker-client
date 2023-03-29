@@ -1,51 +1,87 @@
-import React from 'react'
-import Divider from '../../components/Divider';
-
-import { Button, Form, Input, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button,message  } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import Divider from "../../components/Divider";
+import { useDispatch, useSelector } from "react-redux";
+import { RegisterUser } from "../../apicalls/users";
+import { SetButtonLoading } from "../../redux/loaderSlice";
 
 
-export const Register = () => {
+function Register() {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {buttonLoading} = useSelector(state=>state.loaders)
+
+  const onFinish = async(values) => {
+   try{
+    dispatch(SetButtonLoading(true));
+    const response = await RegisterUser(values);
+    dispatch(SetButtonLoading(false));
+    if (response.success) {
+      message.success(response.message);
+      navigate("/login");
+    } else {
+      throw new Error(response.message);
+    }
+   }catch(error){
+    dispatch(SetButtonLoading(false));
+    message.error(error.message);
+   }
+  };
+  
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div className="grid grid-cols-2">
-        <div className="h-screen  flex justify-center items-center">
-        <div className="bg-white p-5 rounded w-[450px]">
-        <h1 className="text-primary text-2xl">LETS GET YOU STARTED</h1>
-        <Divider />
-        <Form layout="vertical" >
-        <Form.Item label="Name" name="name" >
-              <Input placeholder="Name" />
+      <div className="bg-primary h-screen flex flex-col justify-center items-center">
+        <div>
+          <h1 className="text-7xl text-white">NP-TRACKER</h1>
+          <span className=" text-white mt-5">
+            One place to track all your business records
+          </span>
+        </div>
+      </div>
+      <div className="flex justify-center items-center">
+        <div className="w-[420px]">
+          <h1 className="text-2xl text-gray-700 uppercase">
+            Lets get you started
+          </h1>
+          <Divider />
+          <Form layout="vertical" onFinish={onFinish}>
+            <Form.Item label="First Name" name="FirstName">
+              <Input />
             </Form.Item>
-            <Form.Item label="Email" name="email" >
-              <Input placeholder="Email" />
+            <Form.Item label="Last Name" name="lastName">
+              <Input />
             </Form.Item>
-            <Form.Item label="Password" name="password" >
-              <Input type="password" placeholder="Password" />
+            <Form.Item label="Email" name="Email">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Password" name="Password">
+              <Input type="password" />
             </Form.Item>
 
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              className="mt-2"
-             
-            >
-              Register
+            <Button type="primary" htmlType="submit" block
+            loading={buttonLoading}>
+               {buttonLoading ? "Loading" : "Register"}
             </Button>
 
-            <div className="mt-5 text-center">
-              <span className="text-gray-500">
-                Already have an account?{" "}
-                <Link to="/login" className="text-primary">
-                  Login
-                </Link>
+            <div className="flex justify-center mt-5">
+              <span>
+                Already have an account? <Link to="/login">Login</Link>
               </span>
             </div>
-
-        </Form>
+          </Form>
         </div>
-        </div>
-
+      </div>
     </div>
-  )
+  );
 }
+
+export default Register;

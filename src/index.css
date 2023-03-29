@@ -1,48 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;500&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&display=swap");
+
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
   font-family: "Montserrat", sans-serif !important;
-  font-size: 15px;
   font-weight: 500;
 }
 
-input,
-select,
-textarea,
-.ant-select-selector {
-  min-height: 40px !important;
-  border: 1px solid #6b6a6a !important;
-  width: 100%;
-  padding-left: 10px;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none !important;
-  border: 1px solid #343434 !important;
-  box-shadow: none !important;
-}
-
 button {
+  height: 40px !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
-  min-height: 40px;
 }
 
-table {
-  border: #a1a1a1 1px solid !important;
-  border-radius: 2px;
+input , select{
+  height: 40px !important;
+  border-radius: 0 !important;
+  border: 1px solid #bbbbbb !important;
+  width: 100% !important;
+  padding-left: 15px !important;
 }
 
-i {
-  font-size: 20px;
+textarea{
+  border-radius: 0 !important;
+  border: 1px solid #bbbbbb !important;
 }
 
-.max-width {
-  max-width: max-content !important;
+input:focus , textarea:focus , select:focus {
+  box-shadow: none !important;
+  border: 1px solid #343434 !important;
+}
+
+.ant-form-item {
+  margin-bottom: 10 !important;
+}
+.ant-form-item-label {
+  padding: 0 !important;
+}
+
+table{
+  border: 1px solid #bbbbbb !important;
+}
+
+i{
+  font-size: 20px !important;
 }
