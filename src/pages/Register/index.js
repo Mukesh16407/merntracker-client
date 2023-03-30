@@ -6,6 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RegisterUser } from "../../apicalls/users";
 import { SetButtonLoading } from "../../redux/loaderSlice";
 
+const rules = [
+  {
+    required: true,
+    message: "required",
+  },
+]
 
 function Register() {
 
@@ -15,6 +21,7 @@ function Register() {
   const {buttonLoading} = useSelector(state=>state.loaders)
 
   const onFinish = async(values) => {
+   
    try{
     dispatch(SetButtonLoading(true));
     const response = await RegisterUser(values);
@@ -54,18 +61,16 @@ function Register() {
           </h1>
           <Divider />
           <Form layout="vertical" onFinish={onFinish}>
-            <Form.Item label="First Name" name="FirstName">
-              <Input />
+          <Form.Item label="Name" name="name" rules={rules}>
+              <Input placeholder="Name" />
             </Form.Item>
-            <Form.Item label="Last Name" name="lastName">
-              <Input />
+            <Form.Item label="Email" name="email" rules={rules}>
+              <Input placeholder="Email" />
             </Form.Item>
-            <Form.Item label="Email" name="Email">
-              <Input />
+            <Form.Item label="Password" name="password" rules={rules}>
+              <Input type="password" placeholder="Password" />
             </Form.Item>
-            <Form.Item label="Password" name="Password">
-              <Input type="password" />
-            </Form.Item>
+
 
             <Button type="primary" htmlType="submit" block
             loading={buttonLoading}>
