@@ -9,6 +9,13 @@ import { Users } from "./users";
 
 export const Admin=()=> {
   const navigate = useNavigate();
+
+  const { user } = useSelector((state) => state.users);
+  useEffect(() => {
+    if (user.role !== "admin") {
+      navigate("/");
+    }
+  }, []);
  
   
 
